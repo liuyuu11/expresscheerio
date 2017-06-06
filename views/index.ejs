@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>电影中文名称</th>
+        <th>中国大陆上映日期</th>
+        <th>爬取时间</th>
+        <th>评论人数</th>
+        <th>总评分</th>
+        <th>5星</th>
+        <th>4星</th>
+        <th>3星</th>
+        <th>2星</th>
+        <th>1星</th>
+        <th>导演</th>
+        <th>豆瓣链接</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= fileDataList.fileName ></td>
+        <td><%= fileDataList.releaseDate ></td>
+        <!--<td><%=date></td>
+        <td><%=fileDataList.commentCount></td>
+        <td><%=fileDataList.score></td>
+        <td><%=fileDataList.stars5></td>
+        <td><%=fileDataList.stars4></td>
+        <td><%=fileDataList.stars3></td>
+        <td><%=fileDataList.stars2></td>
+        <td><%=fileDataList.stars1></td>
+        <td><%=fileDataList.directedBy></td>
+        <td><%=fileDataList.fileUrl></td>-->
+  
+      </tr>
+    </tbody>
+  </table>
+</body>
+
+</html>
