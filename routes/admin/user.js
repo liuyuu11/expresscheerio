@@ -32,13 +32,13 @@ router.post('/addUser', function (req, res, next) {
         return;
     }
     var userInfo = {
-        userName: req.body.userName,
-        userPassword: req.body.userPassword,
-        userNick: req.body.userNick,
-        userPhone: req.body.userPhone,
-        userEmail: req.body.userEmail,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        'userName': req.body.userName,
+        'userPassword': req.body.userPassword,
+        'userNick': req.body.userNick,
+        'userPhone': req.body.userPhone,
+        'userEmail': req.body.userEmail,
+        'createdAt': new Date(),
+        'updatedAt': new Date()
     };
     User.findAll({
         where: {
@@ -62,8 +62,42 @@ router.post('/addUser', function (req, res, next) {
     });
 });
 
-//修改用户
-router.post('/updateUser', function (req, res, next) {
+//修改用户资料
+router.post('/updateUserInfo', function (req, res, next) {
+    if (req.body.userName == undefined || req.body.userName == '') {
+        res.render('404', {});
+        return;
+    }
+    User.findAll({
+        where: {
+            userName: req.body.userName
+        }
+    }).then(function (msg) {
+        if (msg.length > 0) {
+            User.update({
+                'userNick': req.body.userNick,
+                'userPhone': req.body.userPhone,
+                'userEmail': req.body.userEmail,
+                'updatedAt': new Date()
+            }, {
+                    where: {
+                        userName: req.body.userName
+                    }
+                }).then(function (msg) {
+                    if (msg.length > 0) {
+                        res.json({ 'code': 200, 'success': true, 'msg': '修改资料成功' });
+                    } else {
+                        res.json({ 'code': 200, 'success': false, 'msg': '修改资料失败' });
+                    }
+                })
+        } else {
+            res.json({ 'code': 200, 'success': false, 'msg': '账号不存在' });
+        }
+    });
+});
+
+//修改用户资料
+router.post('/updateUserPassword', function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '') {
         res.render('404', {});
         return;
@@ -88,7 +122,7 @@ router.post('/updateUser', function (req, res, next) {
                     }
                 })
         } else {
-            res.json({ 'code': 200, 'success': true, 'msg': '账号不存在' });
+            res.json({ 'code': 200, 'success': false, 'msg': '账号不存在' });
         }
     });
 });
