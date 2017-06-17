@@ -30,11 +30,8 @@ app.use('/', index);
 //豆瓣
 app.use('/douban', require('./routes/creeper/douban'));
 
-//mysql接口demo
-app.use('/user',require('./routes/users'))
-
 //好玩的东西
-app.use('/system',require('./routes/system/user'));
+app.use('/admin',require('./routes/admin/user'));
 
 
 // catch 404 and forward to error handler

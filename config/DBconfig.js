@@ -1,10 +1,13 @@
-module.exports =
+var Sequelize = require('sequelize');
+var mysql = require('mysql');
+var sequelize = new Sequelize(
+      'snoob',
+      'root',
+      'root',
       {
-            mysql: {
-                  host: '127.0.0.1',
-                  user: 'root',
-                  password: 'root',
-                  database: 'demo', // 前面建的user表位于这个数据库中 
-                  port: 3306
-            }
-      };
+            'dialect': 'mysql',
+            'host': 'localhost',
+            'port': 3306
+      }
+);
+module.exports=sequelize;
