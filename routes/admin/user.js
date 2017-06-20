@@ -5,7 +5,7 @@ var User = require('../../models/user');
 //验证登陆
 router.post('/login', function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '' || req.body.userPassword == undefined || req.body.userPassword == '') {
-        res.json({ 'code': 200, 'success': false, 'msg': '账号或密码为空' });
+        res.json({ 'code': 401, 'success': false, 'msg': '账号或密码为空' });
         return;
     }
     User.findAll({
@@ -18,7 +18,7 @@ router.post('/login', function (req, res, next) {
         if (msg.length > 0) {
             res.json({ 'code': 200, 'success': true, 'msg': '登陆成功' });
         } else {
-            res.json({ 'code': 200, 'success': false, 'msg': '账号或密码不正确' });
+            res.json({ 'code': 400, 'success': false, 'msg': '账号或密码不正确' });
         }
     }).catch(function (err) {
         console.log(err);
@@ -28,7 +28,7 @@ router.post('/login', function (req, res, next) {
 //添加用户
 router.post('/addUser', function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '') {
-        res.render('404', {});
+        res.json({ 'code': 401, 'success': false, 'msg': '账号或密码为空' });
         return;
     }
     var userInfo = {
@@ -47,7 +47,7 @@ router.post('/addUser', function (req, res, next) {
     }).then(function (msg) {
         console.log(userInfo);
         if (msg.length > 0) {
-            res.json({ 'code': 201, 'success': true, 'msg': '账号已存在' });
+            res.json({ 'code': 204, 'success': false, 'msg': '账号已存在' });
         } else {
             User.create(userInfo).then(function (msg) {
                 if (!!msg) {
@@ -65,7 +65,7 @@ router.post('/addUser', function (req, res, next) {
 //修改用户资料
 router.post('/updateUserInfo', function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '') {
-        res.render('404', {});
+        res.json({ 'code': 401, 'success': false, 'msg': '账号或密码为空' });
         return;
     }
     User.findAll({
@@ -87,11 +87,11 @@ router.post('/updateUserInfo', function (req, res, next) {
                     if (msg.length > 0) {
                         res.json({ 'code': 200, 'success': true, 'msg': '修改资料成功' });
                     } else {
-                        res.json({ 'code': 200, 'success': false, 'msg': '修改资料失败' });
+                        res.json({ 'code': 400, 'success': false, 'msg': '修改资料失败' });
                     }
                 })
         } else {
-            res.json({ 'code': 200, 'success': false, 'msg': '账号不存在' });
+            res.json({ 'code': 402, 'success': false, 'msg': '账号不存在' });
         }
     });
 });
@@ -99,7 +99,7 @@ router.post('/updateUserInfo', function (req, res, next) {
 //修改用户资料
 router.post('/updateUserPassword', function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '') {
-        res.render('404', {});
+        res.json({ 'code': 401, 'success': false, 'msg': '账号或密码为空' });
         return;
     }
     User.findAll({
@@ -122,7 +122,7 @@ router.post('/updateUserPassword', function (req, res, next) {
                     }
                 })
         } else {
-            res.json({ 'code': 200, 'success': false, 'msg': '账号不存在' });
+            res.json({ 'code': 402, 'success': false, 'msg': '账号不存在' });
         }
     });
 });
