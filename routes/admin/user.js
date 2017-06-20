@@ -1,6 +1,8 @@
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var router = express.Router();
 var User = require('../../models/user');
+var jwtVerify = require('../../config/jwtVerify');
 
 //验证登陆
 router.post('/login', function (req, res, next) {
@@ -16,7 +18,13 @@ router.post('/login', function (req, res, next) {
     }).then(function (msg) {
         console.log(msg.length);
         if (msg.length > 0) {
+            var token = jwt.sign({ data: req.body.userName }, 'snoob', {
+                expiresIn: 60 * 60 * 10 // 设置过期时间
+            });
+            console.log(token);
+            res.cookie('token', token, { maxAge: 60 * 60 * 10 });
             res.json({ 'code': 200, 'success': true, 'msg': '登陆成功' });
+            return;
         } else {
             res.json({ 'code': 400, 'success': false, 'msg': '账号或密码不正确' });
         }
@@ -96,8 +104,8 @@ router.post('/updateUserInfo', function (req, res, next) {
     });
 });
 
-//修改用户资料
-router.post('/updateUserPassword', function (req, res, next) {
+//修改用户密码
+router.post('/updateUserPassword', jwtVerify, function (req, res, next) {
     if (req.body.userName == undefined || req.body.userName == '') {
         res.json({ 'code': 401, 'success': false, 'msg': '账号或密码为空' });
         return;
@@ -129,8 +137,7 @@ router.post('/updateUserPassword', function (req, res, next) {
 
 //测试
 router.get('/test', function (req, res, next) {
-    console.log(new Date());
-    console.log(new Date().toLocaleString());
+    res.cookie("token", "112345", { maxAge: 60 * 60 * 10 });
     res.send('ok');
 });
 
